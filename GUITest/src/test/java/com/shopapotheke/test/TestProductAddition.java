@@ -29,8 +29,11 @@ public class TestProductAddition {
 
     @Test()
 
-    public void test_Home_Page_(){
-        homePage.openHomePage();
+    public void test_Home_Page_() throws InterruptedException {
+        homePage.
+                openHomePage().
+                scrollDown().
+                clickRandomProduct();
     }
 
     @AfterTest

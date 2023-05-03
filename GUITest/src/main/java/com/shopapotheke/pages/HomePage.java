@@ -12,7 +12,7 @@ public class HomePage {
     WebDriver driver;
     By randomProduct = By.xpath("//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[1]");
     String baseUrl = "https://www.shop-apotheke.com/";
-    JavascriptExecutor js = (JavascriptExecutor) driver;
+    JavascriptExecutor js;
 
 
     /*
@@ -37,6 +37,7 @@ public class HomePage {
 
     public HomePage(WebDriver driver){
         this.driver = driver;
+        js = (JavascriptExecutor) driver;
     }
 
     // Open home page
