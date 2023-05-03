@@ -9,8 +9,15 @@ import org.openqa.selenium.WebElement;
 
 public class HomePage {
 
+    WebDriver driver;
+    By randomProduct = By.xpath("//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[1]");
+    String baseUrl = "https://www.shop-apotheke.com/";
+    JavascriptExecutor js = (JavascriptExecutor) driver;
 
+
+    /*
     public static void main(String[] args) throws InterruptedException {
+
         By randomProduct = By.xpath("//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[1]");
         By addToCartButton = By.xpath("//*[@id=\"AddToCartButton\"]");
         // By randomProduct = By.xpath("//*[@id=\"content\"]/article/div[1]/div[4]/div/div/div/div/div[2]/ul");
@@ -26,4 +33,26 @@ public class HomePage {
         driver.findElement(addToCartButton).click();
         driver.close();
     }
+    */
+
+    public HomePage(WebDriver driver){
+        this.driver = driver;
+    }
+
+    // Open home page
+    public void openHomePage(){
+        driver.get(baseUrl);
+    }
+
+    // Scroll down
+    public void scrollDown() throws InterruptedException {
+        js.executeScript("window.scrollTo(0, document.body.scrollHeight/4)");
+        TimeUnit.SECONDS.sleep(10);
+    }
+
+    // Click random product
+    public void clickRandomProduct(){
+        driver.findElement(randomProduct).click();
+    }
+
 }
