@@ -5,7 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
+import com.shopapotheke.pages.ProductPage;
 
 public class HomePage {
 
@@ -54,8 +54,10 @@ public class HomePage {
     }
 
     // Click random product
-    public void clickRandomProduct(){
+    public ProductPage clickRandomProduct(){
         driver.findElement(randomProduct).click();
+        ProductPage productPage = new ProductPage(driver);
+        return productPage;
     }
 
 }

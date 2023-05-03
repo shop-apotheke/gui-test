@@ -29,18 +29,17 @@ public class TestProductAddition {
 
     @Test()
 
-    public void test_Home_Page_() throws InterruptedException {
+    public void testRandomProduct() throws InterruptedException {
         homePage.
                 openHomePage().
                 scrollDown().
-                clickRandomProduct();
+                clickRandomProduct().
+                addProductToCart();
     }
 
     @AfterTest
     public void tearDown(){
         driver.quit();
     }
-
-
 
 }
