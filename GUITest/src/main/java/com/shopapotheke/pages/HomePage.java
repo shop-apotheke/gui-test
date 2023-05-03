@@ -40,14 +40,16 @@ public class HomePage {
     }
 
     // Open home page
-    public void openHomePage(){
+    public HomePage openHomePage(){
         driver.get(baseUrl);
+        return this;
     }
 
     // Scroll down
-    public void scrollDown() throws InterruptedException {
+    public HomePage scrollDown() throws InterruptedException {
         js.executeScript("window.scrollTo(0, document.body.scrollHeight/4)");
         TimeUnit.SECONDS.sleep(10);
+        return this;
     }
 
     // Click random product
