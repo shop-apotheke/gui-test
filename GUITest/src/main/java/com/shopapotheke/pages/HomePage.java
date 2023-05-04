@@ -6,13 +6,19 @@ import org.openqa.selenium.By;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.JavascriptExecutor;
 import com.shopapotheke.pages.ProductPage;
+import com.shopapotheke.util.DataGenerator;
 
 public class HomePage {
 
     WebDriver driver;
-    By randomProduct = By.xpath("//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[1]");
+    int randomNumberForProduct;
+    By randomProduct;
+    By randomProductPrice;
+    By randomProductTitle;
     String baseUrl = "https://www.shop-apotheke.com/";
     JavascriptExecutor js;
+    String selectedProductDescription;
+    float selectedProductPrice;
 
 
     /*
@@ -54,9 +60,23 @@ public class HomePage {
     }
 
     // Click random product
-    public ProductPage clickRandomProduct(){
+    public ProductPage clickRandomProduct(int min, int max){
+
+        randomNumberForProduct = DataGenerator.generateRandomNumber(min,max);
+
+        String randomProductXpath = "//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[" + Integer.toString(randomNumberForProduct) + "]";
+        String randomProductTitleXpath = randomProductXpath + "//following::a[starts-with(@data-qa-id,'form-product-slider') and contains(@data-qa-id,'link-button')]";
+        String randomProductPriceXpath = randomProductXpath + "//following::div[@data-qa-id='entry-price']";
+
+        randomProduct = By.xpath(randomProductXpath);
+        randomProductTitle = By.xpath(randomProductTitleXpath);
+        randomProductPrice = By.xpath(randomProductPriceXpath);
+
+        String title = driver.findElement(randomProductTitle).getText();
+        String displayPrice = driver.findElement(randomProductPrice).getText();
+
         driver.findElement(randomProduct).click();
-        ProductPage productPage = new ProductPage(driver);
+        ProductPage productPage = new ProductPage(driver, title, displayPrice);
         return productPage;
     }
 

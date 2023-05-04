@@ -18,28 +18,26 @@ public class TestProductAddition {
 
     @BeforeTest
     public void setup(){
-
         driver = new ChromeDriver();
-
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
         homePage = new HomePage(driver);
-
     }
 
     @Test()
-
     public void testRandomProduct() throws InterruptedException {
         homePage.
                 openHomePage().
                 scrollDown().
-                clickRandomProduct().
+                clickRandomProduct(1,6).
+                validateProductTitle().
+                validateProductPrice().
                 addProductToCart();
     }
 
     @AfterTest
     public void tearDown(){
-        driver.quit();
+        // driver.quit();
     }
 
 }
