@@ -1,4 +1,5 @@
 package com.shopapotheke.test;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.shopapotheke.pages.HomePage;
@@ -18,10 +19,11 @@ public class TestProductAddition {
 
     @BeforeTest
     public void setup(){
+        String baseUrl = "https://www.shop-apotheke.com/";
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        homePage = new HomePage(driver);
+        homePage = new HomePage(driver, baseUrl);
     }
 
     @Test()
@@ -29,15 +31,27 @@ public class TestProductAddition {
         homePage.
                 openHomePage().
                 scrollDown().
-                clickRandomProduct(1,6).
+                clickRandomProduct().
                 validateProductTitle().
                 validateProductPrice().
-                addProductToCart();
+                addProductToCart().
+                goToCart().
+                validateTitle();
     }
+
+    @Test
+    public void testInvalidTitle() throws InterruptedException {
+        homePage.
+                openHomePage().
+                scrollDown().
+                clickRandomProduct().
+                validateProductTitle("invalid title");
+    }
+
 
     @AfterTest
     public void tearDown(){
-        // driver.quit();
+        driver.quit();
     }
 
 }
