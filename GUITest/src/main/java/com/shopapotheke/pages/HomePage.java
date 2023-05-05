@@ -2,9 +2,11 @@ package com.shopapotheke.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import com.shopapotheke.util.DataGenerator;
+import java.time.Duration;
 
 public class HomePage {
     WebDriver driver;
@@ -14,6 +16,7 @@ public class HomePage {
     By randomProductTitle;
     String baseUrl;
     JavascriptExecutor js;
+    String randomProductLiXpath;
     String randomProductXpath;
     String randomProductTitleXpath;
     String randomProductPriceXpath;
@@ -25,9 +28,14 @@ public class HomePage {
         js = (JavascriptExecutor) driver;
 
         randomNumberForProduct = DataGenerator.generateRandomNumber(1,6);
-        randomProductXpath = "//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[" + Integer.toString(randomNumberForProduct) + "]";
-        randomProductTitleXpath = randomProductXpath + "//following::a[starts-with(@data-qa-id,'form-product-slider') and contains(@data-qa-id,'link-button')]";
-        randomProductPriceXpath = randomProductXpath + "//following::div[@data-qa-id='entry-price']";
+        randomProductLiXpath = "//ul[@class='o-SliderHorizontal__list a-list-reset u-position--relative o-SliderHorizontal__list--no-slider']/li[" + Integer.toString(randomNumberForProduct) + "]";
+        randomProductXpath = randomProductLiXpath  + "/article";
+        randomProductTitleXpath = randomProductLiXpath + "//following::a[starts-with(@data-qa-id,'form-product-slider') and contains(@data-qa-id,'link-button')]";
+        randomProductPriceXpath = randomProductLiXpath + "//following::div[@data-qa-id='entry-price']";
+
+        randomProduct = By.xpath(randomProductXpath);
+        randomProductTitle = By.xpath(randomProductTitleXpath);
+        randomProductPrice = By.xpath(randomProductPriceXpath);
     }
 
     // Open home page
@@ -37,23 +45,23 @@ public class HomePage {
     }
 
     // Scroll down
-    public HomePage scrollDown() throws InterruptedException {
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight/4)");
-        TimeUnit.SECONDS.sleep(10);
+    public HomePage scrollDownTillProductsAreLoaded() throws InterruptedException {
+        while(true){
+            js.executeScript("window.scrollTo(0, document.body.scrollHeight/10)");
+            if (!driver.findElements(randomProduct).isEmpty()){
+                break;
+            }
+        }
         return this;
     }
 
     // Click random product
     public ProductPage clickRandomProduct(){
 
-        randomProduct = By.xpath(randomProductXpath);
-        randomProductTitle = By.xpath(randomProductTitleXpath);
-        randomProductPrice = By.xpath(randomProductPriceXpath);
-
         String title = driver.findElement(randomProductTitle).getText();
         String displayPrice = driver.findElement(randomProductPrice).getText();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.presenceOfElementLocated(randomProduct)).click();
 
-        driver.findElement(randomProduct).click();
         ProductPage productPage = new ProductPage(driver, title, displayPrice);
         return productPage;
     }

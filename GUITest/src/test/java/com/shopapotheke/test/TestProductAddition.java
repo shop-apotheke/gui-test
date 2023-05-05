@@ -1,17 +1,11 @@
 package com.shopapotheke.test;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
+import java.util.concurrent.TimeUnit;
 import com.shopapotheke.pages.HomePage;
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import org.testng.Assert;
-
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-
 import org.testng.annotations.Test;
 public class TestProductAddition {
     WebDriver driver;
@@ -30,7 +24,7 @@ public class TestProductAddition {
     public void testRandomProduct() throws InterruptedException {
         homePage.
                 openHomePage().
-                scrollDown().
+                scrollDownTillProductsAreLoaded().
                 clickRandomProduct().
                 validateProductTitle().
                 validateProductPrice().
@@ -43,7 +37,7 @@ public class TestProductAddition {
     public void testInvalidTitle() throws InterruptedException {
         homePage.
                 openHomePage().
-                scrollDown().
+                scrollDownTillProductsAreLoaded().
                 clickRandomProduct().
                 validateProductTitle("invalid title");
     }

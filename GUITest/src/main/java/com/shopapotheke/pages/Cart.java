@@ -4,17 +4,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
     WebDriver driver;
-    List<String> expectedTitiles = new ArrayList<String>();
+    List<String> expectedTitles = new ArrayList<>();
     By productTitles = By.xpath("//*[@data-qa-id='cart-entry-productInfo']/a");
-    public Cart(WebDriver driver, List<String> expectedTitiles) {
+    public Cart(WebDriver driver, List<String> expectedTitles) {
         this.driver = driver;
-        this.expectedTitiles = expectedTitiles;
+        this.expectedTitles = expectedTitles;
     }
 
     public Cart(WebDriver driver){
@@ -22,7 +21,7 @@ public class Cart {
     }
 
     public List<String> getTitlesOfProducts(){
-        List<String> titleList = new ArrayList<String>();
+        List<String> titleList = new ArrayList<>();
         List<WebElement> productTitlesList =  driver.findElements(productTitles);
         for (WebElement productTitle : productTitlesList){
             titleList.add(productTitle.getText());
@@ -32,6 +31,6 @@ public class Cart {
     }
 
     public void validateTitle(){
-        Assert.assertEquals(getTitlesOfProducts(), this.expectedTitiles);
+        Assert.assertEquals(getTitlesOfProducts(), this.expectedTitles);
     }
 }
